@@ -1,0 +1,258 @@
+basePath: /
+definitions:
+  main.Credentials:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  main.LogEntry:
+    properties:
+      message:
+        type: string
+    type: object
+  main.LogResponse:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      level:
+        type: string
+      message:
+        type: string
+      service:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a sample API for log monitoring.
+  title: Log Monitoring API
+  version: "1.0"
+paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate user and return a JWT token
+      parameters:
+      - description: User credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/main.Credentials'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Login to the application
+      tags:
+      - auth
+  /logs:
+    get:
+      description: Retrieve all log entries
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/main.LogResponse'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get all logs
+      tags:
+      - logs
+    post:
+      consumes:
+      - application/json
+      description: Add a new log entry
+      parameters:
+      - description: Log message
+        in: body
+        name: log
+        required: true
+        schema:
+          $ref: '#/definitions/main.LogEntry'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Add a new log
+      tags:
+      - logs
+  /logs/{id}:
+    delete:
+      description: Delete a log entry by its ID
+      parameters:
+      - description: Log ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a log by ID
+      tags:
+      - logs
+    patch:
+      consumes:
+      - application/json
+      description: Partially update a log entry by its ID
+      parameters:
+      - description: Log ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Log message
+        in: body
+        name: log
+        required: true
+        schema:
+          $ref: '#/definitions/main.LogEntry'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Partially update a log by ID
+      tags:
+      - logs
+    put:
+      consumes:
+      - application/json
+      description: Update a log entry completely by its ID
+      parameters:
+      - description: Log ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Log message
+        in: body
+        name: log
+        required: true
+        schema:
+          $ref: '#/definitions/main.LogEntry'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update a log by ID
+      tags:
+      - logs
+swagger: "2.0"
